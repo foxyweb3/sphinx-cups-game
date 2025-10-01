@@ -1,0 +1,192 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Современный шрифт */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Минимальная высота viewport */
+    margin: 0;
+    background: linear-gradient(to bottom, #87CEEB 0%, #F0E68C 70%, #D2B48C 100%); /* Градиент неба, песка и земли */
+    overflow: hidden; /* Предотвращает появление полос прокрутки */
+    color: #333; /* Общий цвет текста */
+    padding: 20px; /* Немного отступа от краев экрана */
+    box-sizing: border-box; /* Учитываем padding в общей ширине/высоте */
+}
+
+.game-container {
+    background-color: rgba(255, 255, 255, 0.98); /* Почти непрозрачный белый фон */
+    padding: 50px; /* Увеличим отступы внутри контейнера */
+    border-radius: 30px; /* Еще более округлые углы */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* Более выраженная и глубокая тень */
+    text-align: center;
+    width: 95%; /* Максимально широкое использование доступного пространства */
+    max-width: 900px; /* Значительно увеличили максимальную ширину! */
+    position: relative;
+    border: 4px solid #D2B48C; /* Толще рамка под цвет земли */
+}
+
+h1 {
+    color: #4A2E1F; /* Темно-коричневый для заголовка */
+    margin-bottom: 40px; /* Увеличим отступ снизу */
+    font-size: 3.2em; /* Значительно увеличили размер заголовка! */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.18); /* Более выраженная тень текста */
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 45px; /* Увеличим отступ снизу */
+    font-size: 1.8em; /* Значительно увеличили размер текста табло! */
+    color: #6A4B3C; /* Коричневый для счета */
+    background-color: #F8F8F8; /* Светлый фон для табло */
+    padding: 20px; /* Увеличили отступы */
+    border-radius: 15px; /* Чуть более округлые углы */
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.18); /* Более выраженная внутренняя тень */
+}
+
+.cups-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; /* Кувшины стоят на одной линии "земли" */
+    margin-top: 60px; /* Увеличили отступ сверху */
+    margin-bottom: 60px; /* Увеличили отступ снизу */
+    min-height: 300px; /* Значительно увеличили высоту контейнера кувшинов! */
+    position: relative;
+    perspective: 1200px; /* Увеличили перспективу для потенциальных 3D-эффектов */
+}
+
+.cup {
+    width: 200px; /* Значительно шире кувшины! */
+    height: 250px; /* Значительно выше кувшины! */
+    background-color: #CD853F;
+    border: 6px solid #8B4513; /* Толще обводка */
+    border-radius: 20px 20px 90px 90px; /* Улучшенная форма кувшина */
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Плавнее анимации */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Более выраженная тень */
+    overflow: hidden;
+    background: linear-gradient(to top, #A0522D, #CD853F, #F4A460); /* Градиент для объема */
+    border-top: 2px solid rgba(255, 255, 255, 0.3); /* Легкий блик сверху */
+    border-left: 1px solid rgba(255, 255, 255, 0.1); /* Легкий блик слева */
+}
+
+.cup:hover {
+    transform: translateY(-15px) scale(1.06); /* Поднимается еще выше и увеличивается больше */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Еще более выраженная тень */
+}
+
+.cup.selected {
+    border-color: #FFD700; /* Золотой цвет выделения */
+    box-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 50px rgba(255, 215, 0, 0.7); /* Максимально яркое свечение */
+}
+
+.sphinx {
+    position: absolute;
+    bottom: 20px; /* Поднимем чуть выше от дна кувшина */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px; /* Значительно увеличили размер сфинкса! */
+    height: 180px; /* Значительно увеличили размер сфинкса! */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom; /* Прижимаем к низу */
+    z-index: 2;
+    transition: opacity 0.6s ease-out; /* Чуть медленнее исчезновение/появление */
+    background-image: url('images/cat.gif'); /* Путь к твоему изображению */
+}
+
+.sphinx.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Стили для кнопок */
+button {
+    background-color: #4CAF50; /* Зеленый */
+    color: white;
+    padding: 18px 40px; /* Увеличили отступы */
+    border: none;
+    border-radius: 15px; /* Еще более округлые углы */
+    font-size: 1.4em; /* Значительно увеличили шрифт */
+    cursor: pointer;
+    margin: 20px; /* Увеличили отступы */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: translateY(-3px); /* Чуть больший эффект "нажатия" */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+button:disabled {
+    background-color: #CCCCCC; /* Серый, когда кнопка отключена */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7; /* Делаем чуть прозрачнее */
+}
+
+#resetButton {
+    background-color: #E74C3C; /* Красная кнопка для сброса */
+}
+
+#resetButton:hover {
+    background-color: #C0392B;
+}
+
+#message {
+    margin-top: 35px;
+    font-size: 1.8em; /* Значительно увеличили шрифт сообщений! */
+    color: #A0522D;
+    font-weight: bold;
+    min-height: 2em; /* Увеличили минимальную высоту, чтобы текст не "прыгал" */
+}
+
+/* Адаптация для очень маленьких экранов (телефонов) */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+        max-width: 95%;
+    }
+    h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    .score-board {
+        font-size: 1.2em;
+        padding: 10px;
+        margin-bottom: 25px;
+    }
+    .cups-container {
+        min-height: 200px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .cup {
+        width: 100px;
+        height: 150px;
+        border-radius: 10px 10px 50px 50px;
+        border-width: 4px;
+    }
+    .sphinx {
+        width: 90px;
+        height: 90px;
+        bottom: 10px;
+    }
+    button {
+        font-size: 1em;
+        padding: 10px 20px;
+        margin: 10px;
+    }
+    #message {
+        font-size: 1.2em;
+        margin-top: 20px;
+    }
+}
